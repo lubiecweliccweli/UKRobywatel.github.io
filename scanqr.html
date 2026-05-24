@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>mObywatel</title>
+    <link rel="stylesheet" href="assetsdiff/main.css">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: #101317;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .qr-error-page {
+            min-height: 100vh;
+            background: rgba(0, 0, 0, 0.72);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+        }
+
+        .qr-error-dialog {
+            width: min(88vw, 420px);
+            border-radius: 18px;
+            background: #1f2326;
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+            padding: 26px 22px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            transform: translateY(0);
+            opacity: 1;
+            transition: opacity 180ms ease, transform 180ms ease;
+        }
+
+        .qr-error-dialog.is-hidden {
+            transform: translateY(12px);
+            opacity: 0;
+        }
+
+        .qr-error-title {
+            margin: 0 0 10px;
+            color: #fff;
+            font-size: 22px;
+            line-height: 1.25;
+            font-weight: 700;
+        }
+
+        .qr-error-description {
+            margin: 0 0 24px;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 16px;
+            line-height: 1.42;
+            font-weight: 400;
+        }
+
+        .qr-error-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .qr-error-button {
+            height: 48px;
+            border: 0;
+            border-radius: 24px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .qr-error-button.ok {
+            background: var(--text);
+            color: #06182b;
+        }
+
+        .qr-error-button.back {
+            background: #2e3438;
+            color: #fff;
+        }
+
+        .qr-error-button:disabled {
+            opacity: 0.72;
+        }
+    </style>
+</head>
+<body>
+    <main class="qr-error-page">
+        <section class="qr-error-dialog" aria-live="polite">
+            <h1 class="qr-error-title">Nie udało się załadować treści ekranu.</h1>
+            <p class="qr-error-description">Spróbuj ponownie lub wróć do poprzedniego ekranu.</p>
+            <div class="qr-error-actions">
+                <button class="qr-error-button ok" type="button">OK</button>
+                <button class="qr-error-button back" type="button">Wróć</button>
+            </div>
+        </section>
+    </main>
+    <script src="assets/bar.js"></script>
+    <script>
+        var okButton = document.querySelector(".qr-error-button.ok");
+        var backButton = document.querySelector(".qr-error-button.back");
+        var dialog = document.querySelector(".qr-error-dialog");
+
+        okButton.addEventListener("click", function () {
+            okButton.disabled = true;
+            okButton.textContent = "Ponawianie...";
+            dialog.classList.add("is-hidden");
+            setTimeout(function () {
+                dialog.classList.remove("is-hidden");
+                okButton.disabled = false;
+                okButton.textContent = "OK";
+            }, 700);
+        });
+
+        backButton.addEventListener("click", function () {
+            sendTo("qr");
+        });
+    </script>
+</body>
+</html>
